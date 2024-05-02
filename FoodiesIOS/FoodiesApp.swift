@@ -54,14 +54,17 @@ struct FoodiesApp: App {
                                     business: business
                                 )
                             },
-                            getOrders: {
-                                try await profileApiClient.getOrders()
+                            getOrders: { token in
+                                try await profileApiClient.getOrders(token: token)
                             },
-                            getOrder: { order in
-                                try await profileApiClient.getOrder(order)
+                            getOrder: { order, token in
+                                try await profileApiClient.getOrder(order, token: token)
                             },
-                            getProfile: {
-                                try await profileApiClient.getProfile()
+                            getProfile: { token in
+                                try await profileApiClient.getProfile(token: token)
+                            },
+                            login: { email, password in
+                                try await profileApiClient.login(email: email, password: password)
                             }
                         )
                     )

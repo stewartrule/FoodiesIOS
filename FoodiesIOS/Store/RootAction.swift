@@ -21,4 +21,7 @@ enum RootAction {
     case removeProduct(ProductModel)
     case getRecommendations(Locatable, Double)
     case getRecommendationsResponse(BusinessListingModel)
+    case login(email: String, password: String)
+    case loginResponse(ProfileToken)
+    case logout
 }

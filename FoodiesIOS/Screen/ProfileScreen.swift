@@ -34,6 +34,10 @@ struct ProfileScreen: View {
                         print("Edit profile")
                     }
 
+                    SecondaryButton(label: "Log out") {
+                        store.send(.logout)
+                    }
+
                     VStack(spacing: 0) {
                         MenuItem(
                             title: "Review Courier",

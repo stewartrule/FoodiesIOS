@@ -4,6 +4,16 @@ struct RootReducer: Reducer {
     func handle(_ oldState: RootState, _ action: RootAction) -> RootState {
         var state = oldState
         switch action {
+            case .loginResponse(let token):
+                state.token = token.value
+
+            case .logout:
+                state.token = ""
+                state.profile = nil
+
+            case .addError(let error):
+                print(error)
+
             case .getBusinesses(let center, let distance):
                 state.businessFilters.center = .init(
                     latitude: center.latitude,

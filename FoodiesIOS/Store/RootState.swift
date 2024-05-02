@@ -1,6 +1,7 @@
 import Foundation
 
 struct RootState {
+    var token: String = ""
     var profile: ProfileModel? = nil
     var orders: [UUID: OrderModel] = [:]
     var businesses: [UUID: BusinessModel] = [:]

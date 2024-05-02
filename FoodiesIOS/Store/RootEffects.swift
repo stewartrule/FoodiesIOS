@@ -9,12 +9,32 @@ struct RootEffects: Effects {
         (_ center: Locatable, _ distance: Double) async throws ->
             BusinessListingModel
     let getBusiness: (BusinessModel) async throws -> BusinessModel?
-    let getOrders: () async throws -> Page<OrderModel>
-    let getOrder: (OrderModel) async throws -> OrderModel?
-    let getProfile: () async throws -> ProfileResponse?
+    let getOrders: (_ token: String) async throws -> Page<OrderModel>
+    let getOrder: (_ order: OrderModel, _ token: String) async throws -> OrderModel?
+    let getProfile: (_ token: String) async throws -> ProfileResponse?
+    let login: (_ email: String, _ password: String) async throws -> ProfileToken?
 
     func handle(_ state: RootState, _ action: RootAction) async -> RootAction? {
         switch action {
+            case let .login(email, password):
+                do {
+                    guard let result = try await login(email, password) else { return nil }
+                    return .loginResponse(result)
+                }
+                catch let error as HttpError { return .addError(error) }
+                catch { print(error) }
+                return nil
+
+            case .loginResponse(let token):
+                do {
+                    if let response = try await getProfile(token.value) {
+                        return .getProfileResponse(response)
+                    }
+                }
+                catch let error as HttpError { return (.addError(error)) }
+                catch { print(error) }
+                return nil
+
             case .getBusinesses(let center, let distance):
                 do {
                     let result = try await getBusinesses(center, distance)
@@ -35,7 +55,7 @@ struct RootEffects: Effects {
 
             case .getOrders:
                 do {
-                    let page = try await getOrders()
+                    let page = try await getOrders(state.token)
                     return .getOrdersResponse(page.items)
                 }
                 catch let error as HttpError { return .addError(error) }
@@ -44,7 +64,7 @@ struct RootEffects: Effects {
 
             case .getOrder(let order):
                 do {
-                    if let response = try await self.getOrder(order) {
+                    if let response = try await self.getOrder(order, state.token) {
                         return .getOrderResponse(response)
                     }
                 }
@@ -64,7 +84,7 @@ struct RootEffects: Effects {
 
             case .getProfile:
                 do {
-                    if let response = try await self.getProfile() {
+                    if let response = try await self.getProfile(state.token) {
                         return .getProfileResponse(response)
                     }
                 }

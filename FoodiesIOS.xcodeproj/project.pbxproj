@@ -46,6 +46,7 @@
 		0F15B17B2BC433A200D1EA25 /* OrderModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F15B17A2BC433A200D1EA25 /* OrderModel.swift */; };
 		0F15B17E2BC4645800D1EA25 /* SwiftHttp in Frameworks */ = {isa = PBXBuildFile; productRef = 0F15B17D2BC4645800D1EA25 /* SwiftHttp */; };
 		0F15B1812BC52FA500D1EA25 /* BusinessApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F15B1802BC52FA500D1EA25 /* BusinessApiClient.swift */; };
+		0F1FF28C2BE4159B0033DCE1 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F1FF28B2BE4159B0033DCE1 /* Store.swift */; };
 		0F41BE942BD830210091BEA7 /* RootAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F41BE932BD830210091BEA7 /* RootAction.swift */; };
 		0F41BE962BD8302B0091BEA7 /* RootState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F41BE952BD8302B0091BEA7 /* RootState.swift */; };
 		0F41BE982BD830370091BEA7 /* RootReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F41BE972BD830370091BEA7 /* RootReducer.swift */; };
@@ -61,7 +62,7 @@
 		0F41BEAC2BD9B1070091BEA7 /* DeliveryMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F41BEAB2BD9B1070091BEA7 /* DeliveryMap.swift */; };
 		0F41BEAE2BD9B4F50091BEA7 /* CLLocationCoordinate2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F41BEAD2BD9B4F50091BEA7 /* CLLocationCoordinate2D.swift */; };
 		0F41BEB02BDD64CE0091BEA7 /* ReviewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F41BEAF2BDD64CE0091BEA7 /* ReviewModel.swift */; };
-		0F41BEB22BDE8E4E0091BEA7 /* RegistrationForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F41BEB12BDE8E4E0091BEA7 /* RegistrationForm.swift */; };
+		0F41BEB22BDE8E4E0091BEA7 /* SignInForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F41BEB12BDE8E4E0091BEA7 /* SignInForm.swift */; };
 		0F46D8A12BD1A072002E351E /* DiscountModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F46D8A02BD1A072002E351E /* DiscountModel.swift */; };
 		0F46D8A32BD1A0D9002E351E /* Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F46D8A22BD1A0D9002E351E /* Chat.swift */; };
 		0F46D8A52BD1A0EA002E351E /* Divider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F46D8A42BD1A0EA002E351E /* Divider.swift */; };
@@ -90,7 +91,6 @@
 		0FD442202BD54E2100085B1B /* VerticalTicket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FD4421F2BD54E2100085B1B /* VerticalTicket.swift */; };
 		0FD442222BD5A89800085B1B /* Text.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FD442212BD5A89800085B1B /* Text.swift */; };
 		0FD5E9DA2BD6B9D500C8FF12 /* ChatModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FD5E9D92BD6B9D500C8FF12 /* ChatModel.swift */; };
-		0FD5E9DD2BD6D72F00C8FF12 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FD5E9DC2BD6D72F00C8FF12 /* Store.swift */; };
 		0FD5E9DF2BD6D7CD00C8FF12 /* RootStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FD5E9DE2BD6D7CD00C8FF12 /* RootStore.swift */; };
 		0FE724D22BC5CA6C00408E26 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FE724D12BC5CA6C00408E26 /* View.swift */; };
 		0FE724D42BC6798400408E26 /* Sequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FE724D32BC6798400408E26 /* Sequence.swift */; };
@@ -138,6 +138,7 @@
 		0F15B1782BC4338C00D1EA25 /* CustomerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerModel.swift; sourceTree = "<group>"; };
 		0F15B17A2BC433A200D1EA25 /* OrderModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderModel.swift; sourceTree = "<group>"; };
 		0F15B1802BC52FA500D1EA25 /* BusinessApiClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessApiClient.swift; sourceTree = "<group>"; };
+		0F1FF28B2BE4159B0033DCE1 /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
 		0F41BE932BD830210091BEA7 /* RootAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootAction.swift; sourceTree = "<group>"; };
 		0F41BE952BD8302B0091BEA7 /* RootState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootState.swift; sourceTree = "<group>"; };
 		0F41BE972BD830370091BEA7 /* RootReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootReducer.swift; sourceTree = "<group>"; };
@@ -153,7 +154,7 @@
 		0F41BEAB2BD9B1070091BEA7 /* DeliveryMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeliveryMap.swift; sourceTree = "<group>"; };
 		0F41BEAD2BD9B4F50091BEA7 /* CLLocationCoordinate2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CLLocationCoordinate2D.swift; sourceTree = "<group>"; };
 		0F41BEAF2BDD64CE0091BEA7 /* ReviewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewModel.swift; sourceTree = "<group>"; };
-		0F41BEB12BDE8E4E0091BEA7 /* RegistrationForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationForm.swift; sourceTree = "<group>"; };
+		0F41BEB12BDE8E4E0091BEA7 /* SignInForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInForm.swift; sourceTree = "<group>"; };
 		0F46D8A02BD1A072002E351E /* DiscountModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscountModel.swift; sourceTree = "<group>"; };
 		0F46D8A22BD1A0D9002E351E /* Chat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chat.swift; sourceTree = "<group>"; };
 		0F46D8A42BD1A0EA002E351E /* Divider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Divider.swift; sourceTree = "<group>"; };
@@ -182,7 +183,6 @@
 		0FD4421F2BD54E2100085B1B /* VerticalTicket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalTicket.swift; sourceTree = "<group>"; };
 		0FD442212BD5A89800085B1B /* Text.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Text.swift; sourceTree = "<group>"; };
 		0FD5E9D92BD6B9D500C8FF12 /* ChatModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatModel.swift; sourceTree = "<group>"; };
-		0FD5E9DC2BD6D72F00C8FF12 /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Store.swift; path = ../../../../../../Store.swift; sourceTree = "<group>"; };
 		0FD5E9DE2BD6D7CD00C8FF12 /* RootStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootStore.swift; sourceTree = "<group>"; };
 		0FE724D12BC5CA6C00408E26 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
 		0FE724D32BC6798400408E26 /* Sequence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sequence.swift; sourceTree = "<group>"; };
@@ -253,7 +253,7 @@
 				0F99BBEA2BD79F6D00794328 /* PasswordTextField.swift */,
 				0F99BBE82BD79F5000794328 /* PrimaryButton.swift */,
 				0F04C6FF2BCBE2ED006F084E /* RecommendationCard.swift */,
-				0F41BEB12BDE8E4E0091BEA7 /* RegistrationForm.swift */,
+				0F41BEB12BDE8E4E0091BEA7 /* SignInForm.swift */,
 				0FC434792BCF093000061BD4 /* SecondaryButton.swift */,
 				0FC434752BCEFBF100061BD4 /* SectionHeader.swift */,
 				0FD442212BD5A89800085B1B /* Text.swift */,
@@ -392,12 +392,12 @@
 		0FD5E9DB2BD6D72300C8FF12 /* Store */ = {
 			isa = PBXGroup;
 			children = (
-				0FD5E9DC2BD6D72F00C8FF12 /* Store.swift */,
 				0FD5E9DE2BD6D7CD00C8FF12 /* RootStore.swift */,
 				0F41BE932BD830210091BEA7 /* RootAction.swift */,
 				0F41BE952BD8302B0091BEA7 /* RootState.swift */,
 				0F41BE972BD830370091BEA7 /* RootReducer.swift */,
 				0F41BE992BD830410091BEA7 /* RootEffects.swift */,
+				0F1FF28B2BE4159B0033DCE1 /* Store.swift */,
 			);
 			path = Store;
 			sourceTree = "<group>";
@@ -520,6 +520,7 @@
 				0F41BEA22BD8E5020091BEA7 /* EnvironmentValues.swift in Sources */,
 				0F04C6D62BC928E6006F084E /* BusinessListItem.swift in Sources */,
 				0FD5E9DA2BD6B9D500C8FF12 /* ChatModel.swift in Sources */,
+				0F1FF28C2BE4159B0033DCE1 /* Store.swift in Sources */,
 				0F41BE962BD8302B0091BEA7 /* RootState.swift in Sources */,
 				0FF9908E2BE01EDD00E05FC9 /* HomeScreen.swift in Sources */,
 				0FD4421E2BD2A70E00085B1B /* HorizontalTicket.swift in Sources */,
@@ -533,7 +534,6 @@
 				0F46D8A92BD1A15C002E351E /* IconButton.swift in Sources */,
 				0F99BBEB2BD79F6D00794328 /* PasswordTextField.swift in Sources */,
 				0F15B1812BC52FA500D1EA25 /* BusinessApiClient.swift in Sources */,
-				0FD5E9DD2BD6D72F00C8FF12 /* Store.swift in Sources */,
 				0F15B1792BC4338C00D1EA25 /* CustomerModel.swift in Sources */,
 				0FE724D22BC5CA6C00408E26 /* View.swift in Sources */,
 				0F46D8A32BD1A0D9002E351E /* Chat.swift in Sources */,
@@ -543,7 +543,7 @@
 				0FE724D42BC6798400408E26 /* Sequence.swift in Sources */,
 				0F41BE942BD830210091BEA7 /* RootAction.swift in Sources */,
 				0F04C6CB2BC9268A006F084E /* BusinessesScreen.swift in Sources */,
-				0F41BEB22BDE8E4E0091BEA7 /* RegistrationForm.swift in Sources */,
+				0F41BEB22BDE8E4E0091BEA7 /* SignInForm.swift in Sources */,
 				0F04C6BF2BC7D931006F084E /* HttpError.swift in Sources */,
 				0F04C7082BCC3234006F084E /* DeliveryStatus.swift in Sources */,
 				0F41BEA82BD9841A0091BEA7 /* ChatScreen.swift in Sources */,

@@ -27,55 +27,67 @@ struct AppView: View {
 
     var body: some View {
         NavigationStack(path: $path) {
-            ZStack(alignment: .bottom) {
-                TabView(selection: $selectedIndex) {
-                    ForEach(Array(tabs.enumerated()), id: \.offset) {
-                        index,
-                        tab in
-                        switch index {
-                            case 0: HomeScreen(store: $store, path: $path)
-                            case 1: OrdersScreen(store: $store, path: $path)
-                            case 2: PromosScreen(store: $store, path: $path)
-                            case 3: ProfileScreen(store: $store, path: $path)
-                            default: Text(tab.name)
+            if let profile = store.profile {
+                ZStack(alignment: .bottom) {
+                    TabView(selection: $selectedIndex) {
+                        ForEach(Array(tabs.enumerated()), id: \.offset) {
+                            index,
+                            tab in
+                            switch index {
+                                case 0: HomeScreen(store: $store, path: $path)
+                                case 1: OrdersScreen(store: $store, path: $path)
+                                case 2: PromosScreen(store: $store, path: $path)
+                                case 3: ProfileScreen(store: $store, path: $path)
+                                default: Text(tab.name)
+                            }
                         }
                     }
-                }
-                .padding({ safeArea, orientation, screen in
-                    EdgeInsets(
-                        top: .s2 + .s4 + .s2 + .s4 + .s2,
-                        leading: 0,
-                        bottom: 0,
-                        trailing: 0
-                    )
-                })
-
-                TabBar(tabs: tabs, selectedIndex: $selectedIndex)
-                    .padding(.horizontal, .s2)
-            }
-            .navigationDestination(for: RootPath.self) { path in
-                switch path {
-                    case .business(let business):
-                        BusinessDetailScreen(
-                            store: $store,
-                            business: business,
-                            path: $path
+                    .padding({ safeArea, orientation, screen in
+                        EdgeInsets(
+                            top: .s2 + .s4 + .s2 + .s4 + .s2,
+                            leading: 0,
+                            bottom: 0,
+                            trailing: 0
                         )
-                    case .chat(let order):
-                        ChatScreen(store: $store, order: order, path: $path)
-                    case .order(let order):
-                        OrderScreen(store: $store, order: order, path: $path)
-                    case .businesses:
-                        BusinessesScreen(store: $store, path: $path)
+                    })
+
+                    TabBar(tabs: tabs, selectedIndex: $selectedIndex)
+                        .padding(.horizontal, .s2)
                 }
-            }
-            .background(.brandBackground).task { store.send(.getProfile) }
-            .overlay(alignment: .topLeading) {
-                SearchBar(store: $store, path: $path) {
-                    selectedIndex = 3
+                .navigationDestination(for: RootPath.self) { path in
+                    switch path {
+                        case .business(let business):
+                            BusinessDetailScreen(
+                                store: $store,
+                                business: business,
+                                path: $path
+                            )
+                        case .chat(let order):
+                            ChatScreen(store: $store, order: order, path: $path)
+                        case .order(let order):
+                            OrderScreen(store: $store, order: order, path: $path)
+                        case .businesses:
+                            BusinessesScreen(store: $store, path: $path)
+                    }
                 }
+                .background(.brandBackground)
+                .overlay(alignment: .topLeading) {
+                    SearchBar(store: $store, path: $path, profile: profile) {
+                        selectedIndex = 3
+                    }
+                }
+                .toolbar(.hidden, for: .navigationBar)
+                .ignoresSafeArea(.keyboard)
+                .task { store.send(.getProfile) }
+            } else {
+                ScrollView {
+                    SignInForm() { email, password in
+                        store.send(.login(email: email, password: password))
+                    }
+                }
+                .toolbar(.hidden, for: .navigationBar)
+                .ignoresSafeArea(.keyboard)
             }
-            .toolbar(.hidden, for: .navigationBar).ignoresSafeArea(.keyboard)
         }
     }
 }
@@ -83,25 +95,22 @@ struct AppView: View {
 struct SearchBar: View {
     @Binding var store: RootStore
     @Binding var path: [RootPath]
+
+    var profile: ProfileModel
     var onTapProfile: () -> Void
+
     @State private var search: String = ""
 
     var body: some View {
         VStack(spacing: .s2) {
             HStack {
                 VStack(spacing: 0) {
-                    if let profile = store.profile {
-                        TextRegular("Your location", size: 12)
-                        if let address = profile.addresses.first {
-                            TextSemiBold(
-                                "\(address.street) \(address.houseNumber), \(address.postalArea.city.name)",
-                                size: 12
-                            )
-                        }
-                    }
-                    else {
-                        TextRegular("Your location", size: 12)
-                        TextRegular("...", size: 12)
+                    TextRegular("Your location", size: 12)
+                    if let address = profile.addresses.first {
+                        TextSemiBold(
+                            "\(address.street) \(address.houseNumber), \(address.postalArea.city.name)",
+                            size: 12
+                        )
                     }
                 }
 
@@ -187,9 +196,11 @@ struct SearchTextField: View {
                 RoundedRectangle(cornerRadius: .s1, style: .continuous)
                     .fill(.brandGrayLight)
             )
-            .focused($isFocused).keyboardType(.default)
+            .focused($isFocused)
+            .keyboardType(.default)
             .onChange(of: search, initial: true, { print(search) })
-            .textInputAutocapitalization(.never).disableAutocorrection(false)
+            .textInputAutocapitalization(.never)
+            .disableAutocorrection(false)
     }
 }
 
@@ -212,15 +223,20 @@ struct SearchTextField: View {
                             businesses: []
                         )
                     },
-                    getBusiness: { business in return nil },
-                    getOrders: {
+                    getBusiness: { business in
+                        return nil
+                    },
+                    getOrders: { _ in
                         .init(
                             metadata: .init(total: 1, page: 1, per: 1),
                             items: []
                         )
                     },
-                    getOrder: { order in order },
-                    getProfile: { nil }
+                    getOrder: { order, _ in order },
+                    getProfile: { token in nil },
+                    login: { email, password in
+                        nil
+                    }
                 )
             )
         )
