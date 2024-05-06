@@ -1,8 +1,9 @@
 import SwiftUI
 import MapKit
+import ComposableArchitecture
 
 struct BusinessesScreen: View {
-    @Binding var store: RootStore
+    let store: StoreOf<RootReducer>
     @Binding var path: [RootPath]
 
     var businesses: [BusinessModel] { store.filteredBusinesses }

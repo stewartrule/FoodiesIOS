@@ -4,6 +4,7 @@ struct EmailTextField: View {
     var label: String
     var placeholder: String
     var onChange: (String) -> Void
+    var onSubmit: () -> Void
 
     @State private var value: String = ""
     @FocusState private var isFocused: Bool
@@ -17,6 +18,7 @@ struct EmailTextField: View {
                 .focused($isFocused)
                 .keyboardType(.emailAddress)
                 .onChange(of: value, initial: true, { onChange(value) })
+                .onSubmit(onSubmit)
                 .textInputAutocapitalization(.never)
                 .disableAutocorrection(true)
         }

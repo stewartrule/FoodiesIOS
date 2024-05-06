@@ -4,6 +4,7 @@ struct PasswordTextField: View {
     var label: String
     var placeholder: String
     var onChange: (String) -> Void
+    var onSubmit: () -> Void
 
     @State private var revealed: Bool = false
     @State private var value: String = ""
@@ -18,6 +19,7 @@ struct PasswordTextField: View {
                     .modifier(BrandTextFieldStyleViewModifier())
                     .focused($isFocused)
                     .onChange(of: value, initial: true, { onChange(value) })
+                    .onSubmit(onSubmit)
                     .textInputAutocapitalization(.never)
                     .disableAutocorrection(true)
                     .overlay(
@@ -37,6 +39,7 @@ struct PasswordTextField: View {
                     .modifier(BrandTextFieldStyleViewModifier())
                     .focused($isFocused)
                     .onChange(of: value, initial: true, { onChange(value) })
+                    .onSubmit(onSubmit)
                     .textInputAutocapitalization(.never)
                     .disableAutocorrection(true)
                     .overlay(

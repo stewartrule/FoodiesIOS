@@ -22,7 +22,9 @@ struct ProfileApiClient: ApiClient {
     }
 
     func login(email: String, password: String) async throws -> ProfileToken? {
-        let auth = "\(email):\(password)".data(using: .utf8)?.base64EncodedString() ?? ""
+        let auth =
+            "\(email):\(password)".data(using: .utf8)?.base64EncodedString()
+            ?? ""
 
         return try await decodableRequest(
             executor: httpClient.dataTask,
@@ -56,7 +58,8 @@ struct ProfileApiClient: ApiClient {
         )
     }
 
-    func getOrder(_ order: OrderModel, token: String) async throws -> OrderModel {
+    func getOrder(_ order: OrderModel, token: String) async throws -> OrderModel
+    {
         return try await decodableRequest(
             executor: httpClient.dataTask,
             url: baseUrl.path(

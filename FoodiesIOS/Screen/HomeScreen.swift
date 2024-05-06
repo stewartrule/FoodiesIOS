@@ -1,8 +1,9 @@
 import SwiftUI
 import MapKit
+import ComposableArchitecture
 
 struct HomeScreen: View {
-    @Binding var store: RootStore
+    let store: StoreOf<RootReducer>
     @Binding var path: [RootPath]
 
     var filters: BusinessFilters { store.businessFilters }
@@ -47,7 +48,10 @@ struct HomeScreen: View {
                                     businessesForCuisine(cuisine: cuisine),
                                     id: \.id
                                 ) { business in
-                                    ForEach(business.products.prefix(2).map { $0 }, id: \.id) {
+                                    ForEach(
+                                        business.products.prefix(3).map { $0 },
+                                        id: \.id
+                                    ) {
                                         product in
                                         RecommendationCard(
                                             product: product,
@@ -57,7 +61,8 @@ struct HomeScreen: View {
                                     }
                                 }
                             }
-                            .padding(.vertical, 0).padding(.horizontal, .s2)
+                            .padding(.vertical, 0)
+                            .padding(.horizontal, .s2)
                             .fixedSize(horizontal: false, vertical: true)
                         }
                     }

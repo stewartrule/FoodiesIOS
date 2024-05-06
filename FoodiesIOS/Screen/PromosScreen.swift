@@ -1,7 +1,8 @@
 import SwiftUI
+import ComposableArchitecture
 
 struct PromosScreen: View {
-    @Binding var store: RootStore
+    let store: StoreOf<RootReducer>
 
     @Binding var path: [RootPath]
 

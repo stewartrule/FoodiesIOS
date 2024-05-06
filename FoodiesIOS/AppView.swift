@@ -1,4 +1,5 @@
 import SwiftUI
+import ComposableArchitecture
 
 struct TabData: Hashable {
     let name: String
@@ -13,7 +14,7 @@ enum RootPath: Hashable {
 }
 
 struct AppView: View {
-    @Binding var store: RootStore
+    let store: StoreOf<RootReducer>
 
     let tabs: [TabData] = [
         .init(name: "Home", icon: "house"),
@@ -34,10 +35,11 @@ struct AppView: View {
                             index,
                             tab in
                             switch index {
-                                case 0: HomeScreen(store: $store, path: $path)
-                                case 1: OrdersScreen(store: $store, path: $path)
-                                case 2: PromosScreen(store: $store, path: $path)
-                                case 3: ProfileScreen(store: $store, path: $path)
+                                case 0: HomeScreen(store: store, path: $path)
+                                case 1: OrdersScreen(store: store, path: $path)
+                                case 2: PromosScreen(store: store, path: $path)
+                                case 3:
+                                    ProfileScreen(store: store, path: $path)
                                 default: Text(tab.name)
                             }
                         }
@@ -58,30 +60,35 @@ struct AppView: View {
                     switch path {
                         case .business(let business):
                             BusinessDetailScreen(
-                                store: $store,
+                                store: store,
                                 business: business,
                                 path: $path
                             )
                         case .chat(let order):
-                            ChatScreen(store: $store, order: order, path: $path)
+                            ChatScreen(store: store, order: order, path: $path)
                         case .order(let order):
-                            OrderScreen(store: $store, order: order, path: $path)
+                            OrderScreen(
+                                store: store,
+                                order: order,
+                                path: $path
+                            )
                         case .businesses:
-                            BusinessesScreen(store: $store, path: $path)
+                            BusinessesScreen(store: store, path: $path)
                     }
                 }
                 .background(.brandBackground)
                 .overlay(alignment: .topLeading) {
-                    SearchBar(store: $store, path: $path, profile: profile) {
+                    SearchBar(store: store, path: $path, profile: profile) {
                         selectedIndex = 3
                     }
                 }
                 .toolbar(.hidden, for: .navigationBar)
                 .ignoresSafeArea(.keyboard)
                 .task { store.send(.getProfile) }
-            } else {
+            }
+            else {
                 ScrollView {
-                    SignInForm() { email, password in
+                    SignInForm { email, password in
                         store.send(.login(email: email, password: password))
                     }
                 }
@@ -93,7 +100,7 @@ struct AppView: View {
 }
 
 struct SearchBar: View {
-    @Binding var store: RootStore
+    let store: StoreOf<RootReducer>
     @Binding var path: [RootPath]
 
     var profile: ProfileModel
@@ -206,39 +213,35 @@ struct SearchTextField: View {
 
 #Preview {
     return AppView(
-        store: .constant(
-            RootStore(
-                state: RootState(),
-                reducer: RootReducer(),
-                effects: RootEffects(
-                    getBusinesses: { postalCode, distance in
-                        return .init(
-                            center: .init(latitude: 52.352, longitude: 5.18),
-                            businesses: []
-                        )
-                    },
-                    getRecommendations: { postalCode, distance in
-                        return .init(
-                            center: .init(latitude: 52.352, longitude: 5.18),
-                            businesses: []
-                        )
-                    },
-                    getBusiness: { business in
-                        return nil
-                    },
-                    getOrders: { _ in
-                        .init(
-                            metadata: .init(total: 1, page: 1, per: 1),
-                            items: []
-                        )
-                    },
-                    getOrder: { order, _ in order },
-                    getProfile: { token in nil },
-                    login: { email, password in
-                        nil
-                    }
-                )
+        store: Store(initialState: RootReducer.State()) {
+            RootReducer(
+                getBusinesses: { postalCode, distance in
+                    return .init(
+                        center: .init(latitude: 52.352, longitude: 5.18),
+                        businesses: []
+                    )
+                },
+                getRecommendations: { postalCode, distance in
+                    return .init(
+                        center: .init(latitude: 52.352, longitude: 5.18),
+                        businesses: []
+                    )
+                },
+                getBusiness: { business in
+                    return nil
+                },
+                getOrders: { _ in
+                    .init(
+                        metadata: .init(total: 1, page: 1, per: 1),
+                        items: []
+                    )
+                },
+                getOrder: { order, _ in order },
+                getProfile: { token in nil },
+                login: { email, password in
+                    nil
+                }
             )
-        )
+        }
     )
 }

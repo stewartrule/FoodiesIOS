@@ -1,7 +1,8 @@
 import SwiftUI
+import ComposableArchitecture
 
 struct ChatScreen: View {
-    @Binding var store: RootStore
+    let store: StoreOf<RootReducer>
     let order: OrderModel
 
     @Binding var path: [RootPath]

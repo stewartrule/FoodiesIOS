@@ -1,8 +1,9 @@
 import SwiftUI
 import MapKit
+import ComposableArchitecture
 
 struct OrderScreen: View {
-    @Binding var store: RootStore
+    let store: StoreOf<RootReducer>
     let order: OrderModel
 
     @Binding var path: [RootPath]

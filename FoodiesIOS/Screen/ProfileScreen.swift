@@ -1,7 +1,8 @@
 import SwiftUI
+import ComposableArchitecture
 
 struct ProfileScreen: View {
-    @Binding var store: RootStore
+    let store: StoreOf<RootReducer>
     @Binding var path: [RootPath]
 
     var body: some View {

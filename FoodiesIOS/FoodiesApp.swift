@@ -1,5 +1,6 @@
 import SwiftHttp
 import SwiftUI
+import ComposableArchitecture
 
 func resetDefaultAppearance() {
     let appearance = UITabBar.appearance()
@@ -8,7 +9,7 @@ func resetDefaultAppearance() {
     appearance.isHidden = true
 }
 
-@main 
+@main
 struct FoodiesApp: App {
     let businessApiClient: BusinessApiClient
     let profileApiClient: ProfileApiClient
@@ -32,43 +33,49 @@ struct FoodiesApp: App {
     var body: some Scene {
         WindowGroup {
             AppView(
-                store: .constant(
-                    RootStore(
-                        state: RootState(),
-                        reducer: RootReducer(),
-                        effects: RootEffects(
-                            getBusinesses: { center, distance in
-                                try await businessApiClient.getBusinesses(
-                                    center: center,
-                                    distance: distance
-                                )
-                            },
-                            getRecommendations: { center, distance in
-                                try await businessApiClient.getRecommendations(
-                                    center: center,
-                                    distance: distance
-                                )
-                            },
-                            getBusiness: { business in
-                                try await businessApiClient.getBusiness(
-                                    business: business
-                                )
-                            },
-                            getOrders: { token in
-                                try await profileApiClient.getOrders(token: token)
-                            },
-                            getOrder: { order, token in
-                                try await profileApiClient.getOrder(order, token: token)
-                            },
-                            getProfile: { token in
-                                try await profileApiClient.getProfile(token: token)
-                            },
-                            login: { email, password in
-                                try await profileApiClient.login(email: email, password: password)
-                            }
-                        )
+                store: Store(initialState: RootReducer.State()) {
+                    RootReducer(
+                        getBusinesses: { center, distance in
+                            try await businessApiClient.getBusinesses(
+                                center: center,
+                                distance: distance
+                            )
+                        },
+                        getRecommendations: { center, distance in
+                            try await businessApiClient.getRecommendations(
+                                center: center,
+                                distance: distance
+                            )
+                        },
+                        getBusiness: { business in
+                            try await businessApiClient.getBusiness(
+                                business: business
+                            )
+                        },
+                        getOrders: { token in
+                            try await profileApiClient.getOrders(
+                                token: token
+                            )
+                        },
+                        getOrder: { order, token in
+                            try await profileApiClient.getOrder(
+                                order,
+                                token: token
+                            )
+                        },
+                        getProfile: { token in
+                            try await profileApiClient.getProfile(
+                                token: token
+                            )
+                        },
+                        login: { email, password in
+                            try await profileApiClient.login(
+                                email: email,
+                                password: password
+                            )
+                        }
                     )
-                )
+                }
             )
         }
     }

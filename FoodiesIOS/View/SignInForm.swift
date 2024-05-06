@@ -14,6 +14,9 @@ struct SignInForm: View {
                 placeholder: "Enter your email",
                 onChange: { value in
                     email = value
+                },
+                onSubmit: {
+                    onSubmit(email, password)
                 }
             )
             .padding(.horizontal, .s2)
@@ -23,6 +26,9 @@ struct SignInForm: View {
                 placeholder: "Enter your password",
                 onChange: { value in
                     password = value
+                },
+                onSubmit: {
+                    onSubmit(email, password)
                 }
             )
             .padding(.horizontal, .s2)
@@ -39,7 +45,7 @@ struct SignInForm: View {
             PrimaryButton(label: "Sign in") {
                 onSubmit(email, password)
             }
-                .padding(.horizontal, .s2)
+            .padding(.horizontal, .s2)
 
             HStack(spacing: 8) {
                 Divider()
@@ -48,17 +54,27 @@ struct SignInForm: View {
             }
             .padding(.all, .s2)
 
-//            VStack(spacing: .s1) {
-//                PrimaryButton(label: "Continue with Face Id", theme: .secondary)
-//                    .padding(.horizontal, .s2)
-//                PrimaryButton(label: "Continue with Google", theme: .secondary)
-//                    .padding(.horizontal, .s2)
-//                PrimaryButton(
-//                    label: "Continue with Facebook",
-//                    theme: .secondary
-//                )
-//                .padding(.horizontal, .s2)
-//            }
+            VStack(spacing: .s1) {
+                PrimaryButton(label: "Continue with Face Id", theme: .secondary)
+                {
+                    print("n/a")
+                }
+                .padding(.horizontal, .s2)
+
+                PrimaryButton(label: "Continue with Google", theme: .secondary)
+                {
+                    print("n/a")
+                }
+                .padding(.horizontal, .s2)
+
+                PrimaryButton(
+                    label: "Continue with Facebook",
+                    theme: .secondary
+                ) {
+                    print("n/a")
+                }
+                .padding(.horizontal, .s2)
+            }
         }
     }
 }

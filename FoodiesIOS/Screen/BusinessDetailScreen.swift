@@ -1,21 +1,17 @@
 import SwiftUI
+import ComposableArchitecture
 
 struct BusinessDetailScreen: View {
-    @Binding var store: RootStore
+    let store: StoreOf<RootReducer>
     let business: BusinessModel
     @Binding var path: [RootPath]
 
     func quantityFor(_ product: ProductModel) -> Int {
-        if let quantity = store.selectedProducts[product.id] { return quantity }
-        return 0
+        return store.selectedProducts[product.id] ?? 0
     }
 
     var products: [ProductModel] {
-        if let business = store.businesses[business.id] {
-            return business.products
-        }
-
-        return []
+        return store.businesses[business.id]?.products ?? []
     }
 
     var selectedProducts: [ProductModel] {
@@ -46,10 +42,8 @@ struct BusinessDetailScreen: View {
 
     @State var selectedProductType: ProductTypeModel?
 
-    @State var scrollPosition: UUID?
-
     var body: some View {
-        VStack(spacing: .s2) {
+        VStack(spacing: 0) {
             VStack(spacing: 0) {
                 HStack(spacing: .s1) {
                     BackButton { path = path.dropLast() }
@@ -123,14 +117,9 @@ struct BusinessDetailScreen: View {
                 }
             }
             .background(.white)
-            .clipShape(
-                CornerRadiusShape(
-                    radius: .s2,
-                    corners: [.bottomLeft, .bottomRight]
-                )
-            )
             .compositingGroup()
             .shadow(color: .black.opacity(0.1), radius: 4, x: 0, y: 2)
+            .zIndex(1)
 
             ScrollView(.vertical) {
                 VStack(spacing: .s2) {
@@ -148,16 +137,12 @@ struct BusinessDetailScreen: View {
                                     OrderListItem(
                                         product: product,
                                         onAdd: {
-                                            withAnimation {
-                                                store.send(.addProduct(product))
-                                            }
+                                            store.send(.addProduct(product))
                                         },
                                         onRemove: {
-                                            withAnimation {
-                                                store.send(
-                                                    .removeProduct(product)
-                                                )
-                                            }
+                                            store.send(
+                                                .removeProduct(product)
+                                            )
                                         },
                                         count: quantityFor(product)
                                     )
@@ -174,6 +159,7 @@ struct BusinessDetailScreen: View {
                         )
                     }
                 }
+                .padding(.vertical, .s2)
             }
         }
         .background(.brandGrayLight)
@@ -192,6 +178,7 @@ struct BusinessDetailScreen: View {
                             removal: .push(from: .top)
                         )
                     )
+                    .animation(.default, value: total > 0)
             }
         }
         .toolbar(.hidden, for: .navigationBar)

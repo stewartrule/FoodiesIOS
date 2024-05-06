@@ -13,13 +13,16 @@ struct PrimaryButton: View {
     var body: some View {
         Text(label)
             .font(.brandRegular(size: 14))
-            .padding(EdgeInsets(top: .s1, leading: .s2, bottom: .s1, trailing: .s2))
+            .padding(
+                EdgeInsets(top: .s1, leading: .s2, bottom: .s1, trailing: .s2)
+            )
             .frame(maxWidth: .infinity, idealHeight: .s6, alignment: .center)
             .foregroundColor(theme == .primary ? .white : .black)
             .background(
                 RoundedRectangle(cornerRadius: .s1, style: .continuous)
                     .fill(
-                        theme == .primary ? .brandPrimary : .brandGray.opacity(0.2)
+                        theme == .primary
+                            ? .brandPrimary : .brandGray.opacity(0.2)
                     )
             )
             .onTapGesture(perform: action)
