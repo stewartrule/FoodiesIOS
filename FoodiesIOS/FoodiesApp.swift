@@ -13,6 +13,7 @@ func resetDefaultAppearance() {
 struct FoodiesApp: App {
     let businessApiClient: BusinessApiClient
     let profileApiClient: ProfileApiClient
+    let orderApiClient: OrderApiClient
 
     init() {
         resetDefaultAppearance()
@@ -25,6 +26,10 @@ struct FoodiesApp: App {
             baseUrl: baseUrl
         )
         profileApiClient = ProfileApiClient(
+            httpClient: httpClient,
+            baseUrl: baseUrl
+        )
+        orderApiClient = OrderApiClient(
             httpClient: httpClient,
             baseUrl: baseUrl
         )
@@ -52,6 +57,11 @@ struct FoodiesApp: App {
                                 business: business
                             )
                         },
+                        getBusinessReviews: { business in
+                            try await businessApiClient.getBusinessReviews(
+                                business: business
+                            )
+                        },
                         getOrders: { token in
                             try await profileApiClient.getOrders(
                                 token: token
@@ -72,6 +82,13 @@ struct FoodiesApp: App {
                             try await profileApiClient.login(
                                 email: email,
                                 password: password
+                            )
+                        },
+                        addChat: { order, message, token in
+                            try await orderApiClient.addChat(
+                                order: order,
+                                message: message,
+                                token: token
                             )
                         }
                     )

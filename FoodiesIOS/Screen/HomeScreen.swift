@@ -21,38 +21,50 @@ struct HomeScreen: View {
             .filter({ $0.cuisines.contains(cuisine) })
     }
 
+    func recommendationsForCuisine(
+        cuisine: CuisineModel
+    ) -> [(BusinessModel, ProductModel)] {
+        return businessesForCuisine(cuisine: cuisine)
+            .flatMap { business in
+                business.products.prefix(4).map { (business, $0) }
+            }
+    }
+
     var body: some View {
         ScrollView(.vertical) {
             VStack(spacing: .s2) {
                 HStack(spacing: .s1) {
                     VStack(spacing: 0) {
-                        TextSemiBold("Recommendations near you", size: 16)
-                        TextRegular("We choose delicious and close to you")
-                            .foregroundColor(.brandGray)
+                        TextSemiBold("Restaurants near you", size: 16)
+                        TextRegular("Find recommendations near you")
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
                     SecondaryButton(label: "See all") {
                         path.append(.businesses)
                     }
                 }
-                .padding(.vertical, 0).padding(.horizontal, .s2)
+                .padding(.all, .s2)
+                .background(.brandPrimary.opacity(0.1))
+                .clipShape(CornerRadiusShape(radius: 8, corners: .allCorners))
+                .padding(.horizontal, .s2)
 
                 ForEach(cuisines, id: \.id) { cuisine in
-                    VStack(spacing: .s1) {
-                        TextSemiBold(cuisine.name.capitalized)
-                            .padding(.horizontal, .s2)
+                    let recommendations = recommendationsForCuisine(
+                        cuisine: cuisine
+                    )
 
-                        ScrollView(.horizontal) {
-                            HStack(spacing: .s2) {
-                                ForEach(
-                                    businessesForCuisine(cuisine: cuisine),
-                                    id: \.id
-                                ) { business in
+                    if recommendations.count > 0 {
+                        VStack(spacing: .s1) {
+                            TextSemiBold(cuisine.name.capitalized)
+                                .padding(.horizontal, .s2)
+
+                            ScrollView(.horizontal) {
+                                HStack(spacing: .s2) {
                                     ForEach(
-                                        business.products.prefix(3).map { $0 },
-                                        id: \.id
+                                        recommendations,
+                                        id: \.1
                                     ) {
-                                        product in
+                                        (business, product) in
                                         RecommendationCard(
                                             product: product,
                                             business: business,
@@ -60,10 +72,10 @@ struct HomeScreen: View {
                                         ) { path.append(.business(business)) }
                                     }
                                 }
+                                .padding(.vertical, 0)
+                                .padding(.horizontal, .s2)
+                                .fixedSize(horizontal: false, vertical: true)
                             }
-                            .padding(.vertical, 0)
-                            .padding(.horizontal, .s2)
-                            .fixedSize(horizontal: false, vertical: true)
                         }
                     }
                 }

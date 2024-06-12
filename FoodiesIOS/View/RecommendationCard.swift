@@ -16,7 +16,9 @@ struct RecommendationCard: View {
                 height: width / (16 / 9)
             )
             .overlay(alignment: .topTrailing) {
-                DiscountBadge(percentage: percentage)
+                if percentage > 0 {
+                    DiscountBadge(percentage: percentage)
+                }
             }
 
             VStack(alignment: .leading, spacing: 8) {

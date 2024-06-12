@@ -45,4 +45,14 @@ struct BusinessApiClient: ApiClient {
             method: .get
         )
     }
+
+    func getBusinessReviews(
+        business: BusinessModel
+    ) async throws -> Page<ReviewModel> {
+        return try await decodableRequest(
+            executor: httpClient.dataTask,
+            url: baseUrl.path(basePath, business.id.uuidString, "reviews"),
+            method: .get
+        )
+    }
 }

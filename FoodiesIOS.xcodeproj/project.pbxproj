@@ -12,7 +12,6 @@
 		0F04C6BF2BC7D931006F084E /* HttpError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F04C6BE2BC7D931006F084E /* HttpError.swift */; };
 		0F04C6C12BC833E2006F084E /* ToastModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F04C6C02BC833E2006F084E /* ToastModel.swift */; };
 		0F04C6C32BC850DB006F084E /* ApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F04C6C22BC850DB006F084E /* ApiClient.swift */; };
-		0F04C6C52BC858FB006F084E /* CustomerApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F04C6C42BC858FB006F084E /* CustomerApiClient.swift */; };
 		0F04C6C72BC85B9A006F084E /* CourierModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F04C6C62BC85B9A006F084E /* CourierModel.swift */; };
 		0F04C6CB2BC9268A006F084E /* BusinessesScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F04C6CA2BC9268A006F084E /* BusinessesScreen.swift */; };
 		0F04C6D02BC92814006F084E /* ToggleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F04C6CF2BC92814006F084E /* ToggleButton.swift */; };
@@ -46,7 +45,10 @@
 		0F15B17B2BC433A200D1EA25 /* OrderModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F15B17A2BC433A200D1EA25 /* OrderModel.swift */; };
 		0F15B17E2BC4645800D1EA25 /* SwiftHttp in Frameworks */ = {isa = PBXBuildFile; productRef = 0F15B17D2BC4645800D1EA25 /* SwiftHttp */; };
 		0F15B1812BC52FA500D1EA25 /* BusinessApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F15B1802BC52FA500D1EA25 /* BusinessApiClient.swift */; };
+		0F1A75F32C19DC6E00A9B648 /* OrderApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F1A75F22C19DC6E00A9B648 /* OrderApiClient.swift */; };
 		0F1FF28F2BE941410033DCE1 /* RootReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F1FF28E2BE941410033DCE1 /* RootReducer.swift */; };
+		0F1FF2912BEA21CF0033DCE1 /* OpeningHours.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F1FF2902BEA21CF0033DCE1 /* OpeningHours.swift */; };
+		0F2D2AE02BEA66A700ED6238 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F2D2ADF2BEA66A700ED6238 /* String.swift */; };
 		0F41BE9C2BD841930091BEA7 /* ProfileScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F41BE9B2BD841930091BEA7 /* ProfileScreen.swift */; };
 		0F41BE9E2BD841BC0091BEA7 /* BusinessDetailScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F41BE9D2BD841BC0091BEA7 /* BusinessDetailScreen.swift */; };
 		0F41BEA02BD843850091BEA7 /* OrdersScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F41BE9F2BD843850091BEA7 /* OrdersScreen.swift */; };
@@ -79,6 +81,8 @@
 		0F99BBF02BD79FE400794328 /* BrandTextFieldStyleViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F99BBEF2BD79FE400794328 /* BrandTextFieldStyleViewModifier.swift */; };
 		0F99BBF32BD7B03600794328 /* OrderItemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F99BBF22BD7B03600794328 /* OrderItemModel.swift */; };
 		0F99BBF52BD7B05000794328 /* Page.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F99BBF42BD7B05000794328 /* Page.swift */; };
+		0FB64F3E2BEBA70300F806F5 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FB64F3D2BEBA70300F806F5 /* Task.swift */; };
+		0FB64F402BEBA81000F806F5 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FB64F3F2BEBA81000F806F5 /* Toast.swift */; };
 		0FC434742BCEFBD300061BD4 /* CGFloat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FC434732BCEFBD300061BD4 /* CGFloat.swift */; };
 		0FC434762BCEFBF100061BD4 /* SectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FC434752BCEFBF100061BD4 /* SectionHeader.swift */; };
 		0FC434782BCEFDE000061BD4 /* OrderSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FC434772BCEFDE000061BD4 /* OrderSummary.swift */; };
@@ -99,7 +103,6 @@
 		0F04C6BE2BC7D931006F084E /* HttpError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpError.swift; sourceTree = "<group>"; };
 		0F04C6C02BC833E2006F084E /* ToastModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastModel.swift; sourceTree = "<group>"; };
 		0F04C6C22BC850DB006F084E /* ApiClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiClient.swift; sourceTree = "<group>"; };
-		0F04C6C42BC858FB006F084E /* CustomerApiClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerApiClient.swift; sourceTree = "<group>"; };
 		0F04C6C62BC85B9A006F084E /* CourierModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourierModel.swift; sourceTree = "<group>"; };
 		0F04C6CA2BC9268A006F084E /* BusinessesScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessesScreen.swift; sourceTree = "<group>"; };
 		0F04C6CF2BC92814006F084E /* ToggleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToggleButton.swift; sourceTree = "<group>"; };
@@ -133,7 +136,10 @@
 		0F15B1782BC4338C00D1EA25 /* CustomerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerModel.swift; sourceTree = "<group>"; };
 		0F15B17A2BC433A200D1EA25 /* OrderModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderModel.swift; sourceTree = "<group>"; };
 		0F15B1802BC52FA500D1EA25 /* BusinessApiClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessApiClient.swift; sourceTree = "<group>"; };
+		0F1A75F22C19DC6E00A9B648 /* OrderApiClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderApiClient.swift; sourceTree = "<group>"; };
 		0F1FF28E2BE941410033DCE1 /* RootReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootReducer.swift; sourceTree = "<group>"; };
+		0F1FF2902BEA21CF0033DCE1 /* OpeningHours.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpeningHours.swift; sourceTree = "<group>"; };
+		0F2D2ADF2BEA66A700ED6238 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		0F41BE9B2BD841930091BEA7 /* ProfileScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileScreen.swift; sourceTree = "<group>"; };
 		0F41BE9D2BD841BC0091BEA7 /* BusinessDetailScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessDetailScreen.swift; sourceTree = "<group>"; };
 		0F41BE9F2BD843850091BEA7 /* OrdersScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrdersScreen.swift; sourceTree = "<group>"; };
@@ -166,6 +172,8 @@
 		0F99BBEF2BD79FE400794328 /* BrandTextFieldStyleViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandTextFieldStyleViewModifier.swift; sourceTree = "<group>"; };
 		0F99BBF22BD7B03600794328 /* OrderItemModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderItemModel.swift; sourceTree = "<group>"; };
 		0F99BBF42BD7B05000794328 /* Page.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Page.swift; sourceTree = "<group>"; };
+		0FB64F3D2BEBA70300F806F5 /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
+		0FB64F3F2BEBA81000F806F5 /* Toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
 		0FC434732BCEFBD300061BD4 /* CGFloat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGFloat.swift; sourceTree = "<group>"; };
 		0FC434752BCEFBF100061BD4 /* SectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeader.swift; sourceTree = "<group>"; };
 		0FC434772BCEFDE000061BD4 /* OrderSummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderSummary.swift; sourceTree = "<group>"; };
@@ -252,6 +260,8 @@
 				0F04C6D12BC92895006F084E /* ToggleButtonBar.swift */,
 				0FD4421F2BD54E2100085B1B /* VerticalTicket.swift */,
 				0F04C7092BCC5899006F084E /* VoucherCard.swift */,
+				0F1FF2902BEA21CF0033DCE1 /* OpeningHours.swift */,
+				0FB64F3F2BEBA81000F806F5 /* Toast.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -268,6 +278,8 @@
 				0F41BEA12BD8E5020091BEA7 /* EnvironmentValues.swift */,
 				0F41BEA32BD8E55E0091BEA7 /* UIApplication.swift */,
 				0F41BEAD2BD9B4F50091BEA7 /* CLLocationCoordinate2D.swift */,
+				0F2D2ADF2BEA66A700ED6238 /* String.swift */,
+				0FB64F3D2BEBA70300F806F5 /* Task.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -311,8 +323,8 @@
 			children = (
 				0F04C6C22BC850DB006F084E /* ApiClient.swift */,
 				0F15B1802BC52FA500D1EA25 /* BusinessApiClient.swift */,
-				0F04C6C42BC858FB006F084E /* CustomerApiClient.swift */,
 				0F4F5F702BD067BB00D7B99A /* ProfileApiClient.swift */,
+				0F1A75F22C19DC6E00A9B648 /* OrderApiClient.swift */,
 			);
 			path = ApiClient;
 			sourceTree = "<group>";
@@ -484,6 +496,7 @@
 				0F8C289D2BC31D1F00FAB0CA /* AppView.swift in Sources */,
 				0F04C70A2BCC5899006F084E /* VoucherCard.swift in Sources */,
 				0FC434742BCEFBD300061BD4 /* CGFloat.swift in Sources */,
+				0F1FF2912BEA21CF0033DCE1 /* OpeningHours.swift in Sources */,
 				0F04C6D92BCBDA0C006F084E /* Font.swift in Sources */,
 				0F04C7022BCC2790006F084E /* NetworkImage.swift in Sources */,
 				0F8C289B2BC31D1F00FAB0CA /* FoodiesApp.swift in Sources */,
@@ -512,7 +525,10 @@
 				0F41BEA02BD843850091BEA7 /* OrdersScreen.swift in Sources */,
 				0F41BEB02BDD64CE0091BEA7 /* ReviewModel.swift in Sources */,
 				0F15B1672BC4321A00D1EA25 /* BusinessTypeModel.swift in Sources */,
+				0F1A75F32C19DC6E00A9B648 /* OrderApiClient.swift in Sources */,
+				0FB64F402BEBA81000F806F5 /* Toast.swift in Sources */,
 				0F04C6C72BC85B9A006F084E /* CourierModel.swift in Sources */,
+				0F2D2AE02BEA66A700ED6238 /* String.swift in Sources */,
 				0F46D8A92BD1A15C002E351E /* IconButton.swift in Sources */,
 				0F99BBEB2BD79F6D00794328 /* PasswordTextField.swift in Sources */,
 				0F15B1812BC52FA500D1EA25 /* BusinessApiClient.swift in Sources */,
@@ -534,6 +550,7 @@
 				0F15B1732BC4333F00D1EA25 /* CoordinateModel.swift in Sources */,
 				0F99BBF32BD7B03600794328 /* OrderItemModel.swift in Sources */,
 				0F04C6C12BC833E2006F084E /* ToastModel.swift in Sources */,
+				0FB64F3E2BEBA70300F806F5 /* Task.swift in Sources */,
 				0F41BEAE2BD9B4F50091BEA7 /* CLLocationCoordinate2D.swift in Sources */,
 				0FC434762BCEFBF100061BD4 /* SectionHeader.swift in Sources */,
 				0FC4347A2BCF093000061BD4 /* SecondaryButton.swift in Sources */,
@@ -542,7 +559,6 @@
 				0F46D8A72BD1A12C002E351E /* BusinessMap.swift in Sources */,
 				0F04C6BD2BC7C3C4006F084E /* ProductModel.swift in Sources */,
 				0F99BBED2BD79FB100794328 /* TextFieldLabel.swift in Sources */,
-				0F04C6C52BC858FB006F084E /* CustomerApiClient.swift in Sources */,
 				0FC434782BCEFDE000061BD4 /* OrderSummary.swift in Sources */,
 				0F04C6D42BC928B6006F084E /* MultiToggleButtonBar.swift in Sources */,
 			);

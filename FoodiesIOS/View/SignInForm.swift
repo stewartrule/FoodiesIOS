@@ -4,14 +4,15 @@ struct SignInForm: View {
     var onSubmit: (_ email: String, _ password: String) -> Void
 
     @State private var remember = false
-    @State private var email = ""
-    @State private var password = ""
+    @State private var email = "shaun.krajcik.1621@lynch.name"
+    @State private var password = "foodies"
 
     var body: some View {
         VStack(spacing: .s2) {
             EmailTextField(
                 label: "Email",
                 placeholder: "Enter your email",
+                initialValue: email,
                 onChange: { value in
                     email = value
                 },
@@ -24,6 +25,7 @@ struct SignInForm: View {
             PasswordTextField(
                 label: "Password",
                 placeholder: "Enter your password",
+                initialValue: password,
                 onChange: { value in
                     password = value
                 },

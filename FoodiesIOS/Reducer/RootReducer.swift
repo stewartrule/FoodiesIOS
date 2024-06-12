@@ -11,12 +11,16 @@ struct RootReducer {
         (_ center: Locatable, _ distance: Double) async throws ->
             BusinessListingModel
     let getBusiness: (BusinessModel) async throws -> BusinessModel?
+    let getBusinessReviews: (BusinessModel) async throws -> Page<ReviewModel>
     let getOrders: (_ token: String) async throws -> Page<OrderModel>
     let getOrder:
         (_ order: OrderModel, _ token: String) async throws -> OrderModel?
     let getProfile: (_ token: String) async throws -> ProfileResponse?
     let login:
         (_ email: String, _ password: String) async throws -> ProfileToken?
+    let addChat:
+        (_ order: OrderModel, _ message: String, _ token: String) async throws
+            -> ChatModel?
 
     @ObservableState
     struct State: Equatable {
@@ -28,6 +32,7 @@ struct RootReducer {
         var toasts: [ToastModel] = []
         var chats: [UUID: ChatModel] = [:]
         var selectedProducts: [UUID: Int] = [:]
+        var reviews: [UUID: ReviewModel] = [:]
 
         var filteredBusinesses: [BusinessModel] {
             businesses.map({ $1 })
@@ -44,6 +49,8 @@ struct RootReducer {
         case getBusinessesResponse(BusinessListingModel)
         case getBusiness(BusinessModel)
         case getBusinessResponse(BusinessModel)
+        case getBusinessReviews(BusinessModel)
+        case getBusinessReviewsResponse([ReviewModel])
         case getOrders
         case getOrdersResponse([OrderModel])
         case getOrder(OrderModel)
@@ -54,19 +61,57 @@ struct RootReducer {
         case addError(HttpError)
         case getProfile
         case getProfileResponse(ProfileResponse)
-        case addChat(ChatModel)
         case addProduct(ProductModel)
         case removeProduct(ProductModel)
         case getRecommendations(Locatable, Double)
         case getRecommendationsResponse(BusinessListingModel)
         case login(email: String, password: String)
         case loginResponse(ProfileToken)
+        case addChat(order: OrderModel, message: String)
+        case addedChat(ChatModel)
         case logout
     }
 
     var body: some Reducer<State, Action> {
         Reduce { state, action in
             switch action {
+                case let .addChat(order, message):
+                    return .run { [token = state.token] send in
+                        do {
+                            if let chat = try await addChat(
+                                order,
+                                message,
+                                token
+                            ) {
+                                await send(.addedChat(chat))
+                            }
+                        }
+                        catch let error as HttpError {
+                            return await send(.addError(error))
+                        }
+                        catch { print(error) }
+                    }
+
+                case let .getBusinessReviews(business):
+                    return .run { send in
+                        do {
+                            let result = try await getBusinessReviews(business)
+                            await send(
+                                .getBusinessReviewsResponse(result.items)
+                            )
+                        }
+                        catch let error as HttpError {
+                            return await send(.addError(error))
+                        }
+                        catch { print(error) }
+                    }
+
+                case let .getBusinessReviewsResponse(reviews):
+                    for review in reviews {
+                        state.reviews[review.id] = review
+                    }
+                    return .none
+
                 case let .login(email, password):
                     return .run { send in
                         do {
@@ -100,11 +145,27 @@ struct RootReducer {
                     state.profile = nil
                     return .none
 
-                case .addError(let error):
+                case let .addError(error):
                     print(error)
+                    let created = Date()
+                    return .run { send in
+                        await send(
+                            .addToast(
+                                .init(
+                                    message: error.friendlyErrorDescription,
+                                    created: created,
+                                    type: .error,
+                                    shown: false
+                                )
+                            )
+                        )
+                    }
+
+                case let .addToast(toast):
+                    state.toasts.append(toast)
                     return .none
 
-                case .getBusinesses(let center, let distance):
+                case let .getBusinesses(center, distance):
                     state.businessFilters.center = .init(
                         latitude: center.latitude,
                         longitude: center.longitude
@@ -124,7 +185,7 @@ struct RootReducer {
                         catch { print(error) }
                     }
 
-                case .getRecommendations(let center, let distance):
+                case let .getRecommendations(center, distance):
                     return .run { send in
                         do {
                             let result = try await getRecommendations(
@@ -151,7 +212,7 @@ struct RootReducer {
                         catch { print(error) }
                     }
 
-                case .getOrder(let order):
+                case let .getOrder(order):
                     return .run { [token = state.token] send in
                         do {
                             if let response = try await self.getOrder(
@@ -167,7 +228,7 @@ struct RootReducer {
                         catch { print(error) }
                     }
 
-                case .getBusiness(let business):
+                case let .getBusiness(business):
                     return .run { send in
                         do {
                             if let response = try await self.getBusiness(
@@ -195,7 +256,7 @@ struct RootReducer {
                         catch { print(error) }
                     }
 
-                case .getProfileResponse(let res):
+                case let .getProfileResponse(res):
                     state.profile = res.profile
                     for order in res.pendingOrders {
                         state.orders[order.id] = order
@@ -229,6 +290,10 @@ struct RootReducer {
                     state.orders[order.id] = order
                     for chat in order.chat {
                         state.chats[chat.id] = chat
+
+                        for review in order.reviews {
+                            state.reviews[review.id] = review
+                        }
                     }
                     return .none
 
@@ -261,10 +326,15 @@ struct RootReducer {
                     return .none
 
                 case .getOrdersResponse(let orders):
-                    for order in orders { state.orders[order.id] = order }
+                    for order in orders {
+                        state.orders[order.id] = order
+                        for review in order.reviews {
+                            state.reviews[review.id] = review
+                        }
+                    }
                     return .none
 
-                case .addChat(let chat):
+                case let .addedChat(chat):
                     state.chats[chat.id] = chat
                     return .none
 

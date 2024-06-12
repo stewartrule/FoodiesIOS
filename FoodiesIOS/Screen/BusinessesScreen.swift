@@ -8,11 +8,12 @@ struct BusinessesScreen: View {
 
     var businesses: [BusinessModel] { store.filteredBusinesses }
     var filters: BusinessFilters { store.businessFilters }
-    var cuisines: [CuisineModel] { store.businesses.map({ $1 }).cuisines }
+
+    @State private var isPresented: Bool = false
 
     var body: some View {
-        ScrollView(.vertical) {
-            VStack(spacing: .s1) {
+        ZStack {
+            Group {
                 if filters.center.latitude != 0 {
                     BusinessMap(
                         initialPosition: .camera(
@@ -21,7 +22,7 @@ struct BusinessesScreen: View {
                                     latitude: filters.center.latitude,
                                     longitude: filters.center.longitude
                                 ),
-                                distance: filters.distance * 1000 * 2
+                                distance: filters.distance * 1000 * 4
                             )
                         ),
                         businesses: businesses
@@ -33,7 +34,7 @@ struct BusinessesScreen: View {
                             )
                         )
                     }
-                    .frame(maxWidth: .infinity, idealHeight: 340)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .onAppear {
                         store.send(
                             .getBusinesses(filters.center, filters.distance)
@@ -42,68 +43,113 @@ struct BusinessesScreen: View {
                 }
                 else {
                     Rectangle().fill(.brandGray)
-                        .frame(maxWidth: .infinity, idealHeight: 340)
-                }
-
-                ToggleButtonBar(
-                    options: BusinessSort.allCases,
-                    selected: filters.sort,
-                    label: { $0.label },
-                    onSelect: { selected in store.send(.setSort(selected)) }
-                )
-
-                MultiToggleButtonBar(
-                    options: cuisines,
-                    selected: filters.cuisines,
-                    label: { $0.name.capitalized },
-                    onSelect: { cuisine in store.send(.toggleCuisine(cuisine)) }
-                )
-
-                ToggleButtonBar(
-                    options: [1, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20],
-                    selected: filters.distance,
-                    label: { "\(Int($0)) km" },
-                    onSelect: { distance in
-                        store.send(.getBusinesses(filters.center, distance))
-                    }
-                )
-
-                ForEach(businesses, id: \.id) { business in
-                    VStack(spacing: .s2) {
-                        BusinessListItem(business: business) { _ in
-                            store.send(.getBusiness(business))
-                            path.append(.business(business))
-                        }
-                        if business != businesses.last { Divider() }
-                    }
-                    .padding(
-                        EdgeInsets(
-                            top: .s1,
-                            leading: .s2,
-                            bottom: 0,
-                            trailing: .s2
-                        )
-                    )
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
                 }
             }
-            .padding({ safeArea, orientation, screen in
-                EdgeInsets(
-                    top: .s8,
-                    leading: 0,
-                    bottom: safeArea.bottom,
-                    trailing: 0
+        }
+        .sheet(
+            isPresented: $isPresented,
+            content: {
+                BusinessListing(
+                    store: store,
+                    businesses: businesses,
+                    onSelect: { business in
+                        store.send(.getBusiness(business))
+                        path.append(.business(business))
+
+                        Task {
+                            try await Task.sleep(seconds: 0.2)
+                            await MainActor.run {
+                                isPresented = false
+                            }
+                        }
+                    }
                 )
-            })
+                .interactiveDismissDisabled()
+                .presentationDetents([
+                    .height(UIScreen.main.bounds.height * 0.1),
+                    .height(UIScreen.main.bounds.height * 0.5),
+                    .large,
+                ])
+                .presentationBackgroundInteraction(
+                    .enabled(upThrough: .large)
+                )
+                .ignoresSafeArea()
+            }
+        )
+        .onAppear {
+            Task {
+                try await Task.sleep(seconds: 0.2)
+                await MainActor.run {
+                    isPresented = true
+                }
+            }
         }
         .toolbar(.hidden, for: .navigationBar)
         .overlay(alignment: .topLeading) {
             HStack(spacing: .s1) {
                 BackButton { path = path.dropLast() }
-                TextRegular("Recommendations")
+                TextRegular("Recommendations near you")
             }
             .frame(maxWidth: .infinity).padding(.all, .s2).background(.white)
             .compositingGroup()
             .shadow(color: .black.opacity(0.1), radius: 4, x: 0, y: 2)
         }
+    }
+}
+
+struct BusinessListing: View {
+    let store: StoreOf<RootReducer>
+
+    let businesses: [BusinessModel]
+    var onSelect: (BusinessModel) -> Void
+
+    var cuisines: [CuisineModel] { store.businesses.map({ $1 }).cuisines }
+    var filters: BusinessFilters { store.businessFilters }
+
+    var body: some View {
+        VStack(spacing: .s1) {
+            ScrollView(.vertical) {
+                VStack(spacing: .s1) {
+                    ForEach(businesses, id: \.id) { business in
+                        VStack(spacing: .s2) {
+                            BusinessListItem(business: business) { _ in
+                                onSelect(business)
+
+                            }
+                            if business != businesses.last { Divider() }
+                        }
+                        .padding(
+                            EdgeInsets(
+                                top: business != businesses.first ? .s1 : 0,
+                                leading: .s2,
+                                bottom: 0,
+                                trailing: .s2
+                            )
+                        )
+                    }
+                }
+                .padding({ safeArea, orientation, screen in
+                    EdgeInsets(
+                        top: .s1,
+                        leading: 0,
+                        bottom: safeArea.bottom + .s2,
+                        trailing: 0
+                    )
+                })
+            }
+            .ignoresSafeArea()
+
+        }
+        .padding(.top, .s2)
+        .background(.white)
+        .clipShape(
+            CornerRadiusShape(
+                radius: .s2,
+                corners: [.topLeft, .topRight]
+            )
+        )
+        .compositingGroup()
+        .shadow(color: .black.opacity(0.1), radius: 4, x: 0, y: -2)
     }
 }

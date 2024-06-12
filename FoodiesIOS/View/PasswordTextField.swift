@@ -10,6 +10,20 @@ struct PasswordTextField: View {
     @State private var value: String = ""
     @FocusState private var isFocused: Bool
 
+    init(
+        label: String,
+        placeholder: String,
+        initialValue: String,
+        onChange: @escaping (String) -> Void,
+        onSubmit: @escaping () -> Void
+    ) {
+        self.label = label
+        self.placeholder = placeholder
+        self._value = State(initialValue: initialValue)
+        self.onChange = onChange
+        self.onSubmit = onSubmit
+    }
+
     var body: some View {
         VStack(spacing: 4) {
             TextFieldLabel(label: label)

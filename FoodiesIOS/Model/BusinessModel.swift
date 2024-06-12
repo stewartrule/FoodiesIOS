@@ -26,23 +26,12 @@ struct BusinessModel: Hashable, Codable, Identifiable, Locatable {
 
     func withDistance(to location: Locatable) -> Self {
         var clone = self
-        clone.distance = getDistanceTo(location)
+        clone.distance = getDistance(to: location)
         return clone
     }
 
     func isOpenAt(date: Date) -> Bool {
-        let calendar = Calendar.current
-        let weekday = calendar.component(.weekday, from: date)
-
-        return openingHours.contains { day in
-            if day.weekday != weekday { return false }
-            if day.isClosed { return false }
-
-            let hour = calendar.component(.hour, from: date)
-            let minute = calendar.component(.minute, from: date)
-            let minutes = 60 * hour + minute
-            return minutes >= day.startTime && minutes < day.endTime
-        }
+        return openingHours.isOpenAt(date: date)
     }
 
     func matches(_ filters: BusinessFilters) -> Bool {
@@ -58,7 +47,7 @@ struct BusinessModel: Hashable, Codable, Identifiable, Locatable {
             return false
         }
 
-        if getDistanceTo(filters.center) > filters.distance { return false }
+        if getDistance(to: filters.center) > filters.distance { return false }
 
         if filters.isOpenNow && !isOpenAt(date: Date()) { return false }
 
@@ -75,18 +64,21 @@ extension Array where Element == BusinessModel {
                 switch filters.sort {
                     case .deliveryCharge:
                         lhs.deliveryCharge < rhs.deliveryCharge
-                    case .distance: lhs.distance < rhs.distance
+                    case .distance:
+                        lhs.distance < rhs.distance
                     case .minimumOrderAmount:
                         lhs.minimumOrderAmount < rhs.minimumOrderAmount
                     case .name:
                         lhs.name.localizedCompare(rhs.name) == .orderedAscending
-                    case .rating: lhs.averageRating > rhs.averageRating
+                    case .rating:
+                        lhs.averageRating > rhs.averageRating
                 }
             })
     }
 
     var cuisines: [CuisineModel] {
-        flatMap({ $0.cuisines }).unique()
+        flatMap({ $0.cuisines })
+            .unique()
             .sorted { lhs, rhs in
                 lhs.name.localizedCompare(rhs.name) == .orderedAscending
             }

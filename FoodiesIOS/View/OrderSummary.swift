@@ -55,11 +55,16 @@ struct OrderSummary: View {
                 Text(status).font(.brandRegular())
                     .frame(maxWidth: .infinity, alignment: .leading)
 
-                SecondaryButton(label: "Track order", outline: true) {
-                    onTrack(order)
+                if order.deliveredAt != nil, order.reviews.first != nil {
+                    SecondaryButton(label: "Change review", outline: true) {
+                    }
+                }
+                else if order.deliveredAt == nil {
+                    SecondaryButton(label: "Track order", outline: true) {
+                        onTrack(order)
+                    }
                 }
             }
-
         }
     }
 }

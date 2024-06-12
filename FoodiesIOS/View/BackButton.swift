@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct BackButton: View {
+    var color = Color.primary
     var action: () -> Void
 
     var body: some View {
@@ -13,7 +14,7 @@ struct BackButton: View {
                 .overlay(alignment: .center) {
                     Image(systemName: "arrow.backward")
                         .imageScale(.small)
-                        .foregroundColor(.primary)
+                        .foregroundColor(color)
                 }
         }
     }

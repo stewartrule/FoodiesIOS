@@ -13,7 +13,7 @@ struct BusinessListItem: View {
 
     var body: some View {
         HStack(alignment: .center, spacing: 16) {
-            NetworkImage(image: business.image, width: .s5, height: .s5)
+            NetworkImage(image: business.image, width: .s6, height: .s6)
                 .clipShape(CornerRadiusShape(radius: .s1, corners: .allCorners))
 
             VStack {

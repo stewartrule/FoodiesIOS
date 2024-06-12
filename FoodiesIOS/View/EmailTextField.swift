@@ -9,6 +9,20 @@ struct EmailTextField: View {
     @State private var value: String = ""
     @FocusState private var isFocused: Bool
 
+    init(
+        label: String,
+        placeholder: String,
+        initialValue: String,
+        onChange: @escaping (String) -> Void,
+        onSubmit: @escaping () -> Void
+    ) {
+        self.label = label
+        self.placeholder = placeholder
+        self.onChange = onChange
+        self.onSubmit = onSubmit
+        self._value = State(initialValue: initialValue)
+    }
+
     var body: some View {
         VStack(spacing: 4) {
             TextFieldLabel(label: label)

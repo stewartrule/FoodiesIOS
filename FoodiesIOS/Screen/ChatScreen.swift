@@ -10,36 +10,31 @@ struct ChatScreen: View {
     @FocusState private var isFocused: Bool
 
     var chat: [ChatModel] {
-        return store.chats.compactMap({ $1 })
+        return store.chats
+            .compactMap({ $1 })
             .filter({ $0.order.id == order.id })
             .sorted { lhs, rhs in lhs.createdAt < rhs.createdAt }
     }
 
-    func addChat(
-        profile: ProfileModel,
-        courier: CourierModel,
-        order: OrderModel
-    ) {
-        store.send(
-            .addChat(
-                .init(
-                    id: UUID(),
-                    message: message,
-                    sender: .customer,
-                    createdAt: .now,
-                    seenAt: nil,
-                    customer: .init(id: profile.id),
-                    courier: .init(id: courier.id),
-                    order: .init(id: order.id)
+    var isEmpty: Bool {
+        return message.trim().isEmpty
+    }
+
+    func addChat() {
+        if !isEmpty {
+            store.send(
+                .addChat(
+                    order: order,
+                    message: message
                 )
             )
-        )
-        message = ""
+            message = ""
+        }
     }
 
     var body: some View {
         VStack(spacing: 0) {
-            if let courier = order.courier, let profile = store.profile {
+            if let courier = order.courier {
                 HStack(spacing: .s1) {
                     HStack(spacing: .s1) {
                         BackButton { path = path.dropLast() }
@@ -73,12 +68,20 @@ struct ChatScreen: View {
                 .shadow(color: .black.opacity(0.1), radius: 4, x: 0, y: 2)
 
                 ScrollView(.vertical) {
-                    VStack(spacing: .s2) {
-                        ForEach(chat, id: \.id) { chat in
-                            ChatMessage(chat: chat)
+                    ScrollViewReader { value in
+                        VStack(spacing: .s2) {
+                            ForEach(chat, id: \.id) { chat in
+                                ChatMessage(chat: chat).id(chat.id)
+                            }
                         }
+                        .onChange(
+                            of: chat.count,
+                            {
+                                value.scrollTo(chat.last?.id)
+                            }
+                        )
+                        .padding(.all, .s2)
                     }
-                    .padding(.all, .s2)
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
 
@@ -103,23 +106,16 @@ struct ChatScreen: View {
                             )
                             .fill(.white)
                         )
-                        .focused($isFocused).keyboardType(.default)
+                        .focused($isFocused)
+                        .keyboardType(.default)
                         .onSubmit {
-                            addChat(
-                                profile: profile,
-                                courier: courier,
-                                order: order
-                            )
+                            addChat()
                         }
                         .textInputAutocapitalization(.never)
                         .disableAutocorrection(false)
 
                     Button {
-                        addChat(
-                            profile: profile,
-                            courier: courier,
-                            order: order
-                        )
+                        addChat()
                     } label: {
                         Icon(
                             icon: .submit,
@@ -127,7 +123,8 @@ struct ChatScreen: View {
                             foreground: .white
                         )
                     }
-                    .frame(width: .s6, height: .s6).disabled(message.isEmpty)
+                    .frame(width: .s6, height: .s6)
+                    .disabled(isEmpty)
                     .background(
                         CornerRadiusShape(
                             radius: .s1,
@@ -136,10 +133,12 @@ struct ChatScreen: View {
                         .fill(.brandPrimary)
                     )
                 }
-                .padding(.horizontal, .s2).padding(.vertical, .s2)
+                .padding(.horizontal, .s2)
+                .padding(.vertical, .s2)
             }
         }
-        .background(.brandGrayLight).toolbar(.hidden, for: .navigationBar)
+        .background(.brandGrayLight)
+        .toolbar(.hidden, for: .navigationBar)
         .task { store.send(.getOrder(order)) }
     }
 }

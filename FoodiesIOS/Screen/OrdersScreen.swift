@@ -56,18 +56,47 @@ struct OrderList: View {
     var orders: [OrderModel]
     @Binding var path: [RootPath]
 
+    let ratings = [1, 2, 3, 4, 5]
     var body: some View {
         VStack(spacing: .s2) {
             ForEach(orders, id: \.id) { order in
                 OrderSummary(order: order, onTrack: { path.append(.order($0)) })
                     .padding(.horizontal, .s2)
 
-                if order.sentAt != nil, let courier = order.courier {
+                if let review = order.reviews.first, order.deliveredAt != nil {
+                    HStack {
+                        TextRegular("Your rating")
+
+                        HStack(spacing: 4) {
+                            ForEach(ratings, id: \.self) { rating in
+                                RoundedRectangle(cornerRadius: .s2)
+                                    .fill(
+                                        rating <= review.rating
+                                            ? .brandPrimary : .brandGrayLight
+                                    )
+                                    .frame(width: .s2, height: .s2)
+                            }
+                        }
+                    }
+                    .padding(.all, .s2)
+                    .background(
+                        RoundedRectangle(cornerRadius: .s2, style: .continuous)
+                            .fill(.white)
+                            .strokeBorder(
+                                .brandGrayLight
+                            )
+                    )
+                    .padding(.horizontal, .s2)
+
+                }
+                else if order.sentAt != nil, let courier = order.courier {
                     CourierCta(
                         courier: courier,
                         order: order,
                         onRequestChat: { path.append(.chat(order)) },
-                        onRequestReview: { print("Add review") }
+                        onRequestReview: {
+                            print("Add review")
+                        }
                     )
                     .padding(.horizontal, .s2)
                 }

@@ -28,7 +28,7 @@ struct BusinessFilters: Equatable {
     var sort: BusinessSort = .distance
     var rating: Int?
     var center: CoordinateModel = .init(latitude: 0, longitude: 0)
-    var distance: Double = 6
+    var distance: Double = 4
     var minimumOrderAmount: MinimumOrderAmount = .ignore
     var isOpenNow: Bool = false
     var hasFreeDelivery: Bool = false

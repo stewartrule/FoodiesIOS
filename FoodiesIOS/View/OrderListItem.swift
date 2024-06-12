@@ -14,7 +14,7 @@ struct OrderListItem: View {
 
     var body: some View {
         HStack(alignment: .center, spacing: .s2) {
-            NetworkImage(image: product.image, width: .s7, height: .s7)
+            NetworkImage(image: product.image, width: .s9, height: .s9)
                 .clipShape(CornerRadiusShape(radius: .s1, corners: .allCorners))
 
             VStack(spacing: 0) {
@@ -31,6 +31,7 @@ struct OrderListItem: View {
                 IconButton(
                     icon: .minus,
                     background: count == 0 ? .brandGray : .brandPrimary,
+                    foreground: .white,
                     size: .s2,
                     disabled: count == 0
                 ) { onRemove() }
@@ -38,7 +39,9 @@ struct OrderListItem: View {
                 Text("\(count)").font(.brandRegular(size: 14))
                     .frame(width: .s4, height: .s2)
 
-                IconButton(icon: .plus, size: .s2) { onAdd() }
+                IconButton(icon: .plus, foreground: .white, size: .s2) {
+                    onAdd()
+                }
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)

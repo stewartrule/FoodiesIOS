@@ -17,6 +17,7 @@ struct OrderModel: Hashable, Codable, Identifiable {
     let business: BusinessAdressModel
     let items: [OrderItemModel]
     let chat: [ChatModel]
+    let reviews: [ReviewModel]
 
     static let samples: [Self] = []
 }

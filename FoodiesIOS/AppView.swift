@@ -26,6 +26,10 @@ struct AppView: View {
     @State var path: [RootPath] = []
     @State var selectedIndex = 0
 
+    var toasts: [ToastModel] {
+        store.toasts.filter({ $0.shown == false })
+    }
+
     var body: some View {
         NavigationStack(path: $path) {
             if let profile = store.profile {
@@ -38,8 +42,7 @@ struct AppView: View {
                                 case 0: HomeScreen(store: store, path: $path)
                                 case 1: OrdersScreen(store: store, path: $path)
                                 case 2: PromosScreen(store: store, path: $path)
-                                case 3:
-                                    ProfileScreen(store: store, path: $path)
+                                case 3: ProfileScreen(store: store, path: $path)
                                 default: Text(tab.name)
                             }
                         }
@@ -89,11 +92,22 @@ struct AppView: View {
             else {
                 ScrollView {
                     SignInForm { email, password in
-                        store.send(.login(email: email, password: password))
+                        store.send(
+                            .login(
+                                email: email.trim(),
+                                password: password.trim()
+                            )
+                        )
                     }
                 }
                 .toolbar(.hidden, for: .navigationBar)
                 .ignoresSafeArea(.keyboard)
+            }
+        }
+        .overlay(alignment: .top) {
+            if let toast = toasts.last {
+                Toast(toast: toast)
+                    .padding(.all, .s2)
             }
         }
     }
@@ -162,8 +176,10 @@ struct TabBar: View {
                 } label: {
                     Tab(selected: selectedIndex == index, tab: tab)
                 }
-                .padding(.vertical, .s2).background(.clear)
-                .foregroundColor(.brandGray).frame(maxWidth: .infinity)
+                .padding(.vertical, .s2)
+                .background(.clear)
+                .foregroundColor(.brandGray)
+                .frame(maxWidth: .infinity)
             }
         }
         .frame(maxWidth: .infinity).padding(.horizontal, .s2)
@@ -230,6 +246,12 @@ struct SearchTextField: View {
                 getBusiness: { business in
                     return nil
                 },
+                getBusinessReviews: { business in
+                    .init(
+                        metadata: .init(total: 1, page: 1, per: 1),
+                        items: []
+                    )
+                },
                 getOrders: { _ in
                     .init(
                         metadata: .init(total: 1, page: 1, per: 1),
@@ -239,6 +261,9 @@ struct SearchTextField: View {
                 getOrder: { order, _ in order },
                 getProfile: { token in nil },
                 login: { email, password in
+                    nil
+                },
+                addChat: { order, message, token in
                     nil
                 }
             )

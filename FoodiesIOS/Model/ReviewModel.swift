@@ -12,4 +12,5 @@ struct ReviewModel: Hashable, Codable, Identifiable {
     let rating: Int
     let createdAt: Date
     let customer: Customer
+    let businessId: UUID
 }
