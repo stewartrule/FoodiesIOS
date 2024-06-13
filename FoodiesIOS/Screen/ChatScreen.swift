@@ -9,7 +9,7 @@ struct ChatScreen: View {
     @State private var message: String = ""
     @FocusState private var isFocused: Bool
 
-    var chat: [ChatModel] {
+    var chats: [ChatModel] {
         return store.chats
             .compactMap({ $1 })
             .filter({ $0.order.id == order.id })
@@ -63,23 +63,28 @@ struct ChatScreen: View {
 
                     IconButton(icon: .phone) { print("call") }
                 }
-                .frame(maxWidth: .infinity).padding(.all, .s2)
-                .background(.white).compositingGroup()
+                .frame(maxWidth: .infinity)
+                .padding(.all, .s2)
+                .background(.white)
+                .compositingGroup()
                 .shadow(color: .black.opacity(0.1), radius: 4, x: 0, y: 2)
 
                 ScrollView(.vertical) {
-                    ScrollViewReader { value in
+                    ScrollViewReader { reader in
                         VStack(spacing: .s2) {
-                            ForEach(chat, id: \.id) { chat in
+                            ForEach(chats, id: \.id) { chat in
                                 ChatMessage(chat: chat).id(chat.id)
                             }
                         }
                         .onChange(
-                            of: chat.count,
+                            of: chats.count,
                             {
-                                value.scrollTo(chat.last?.id)
+                                reader.scrollTo(chats.last?.id)
                             }
                         )
+                        .onAppear(perform: {
+                            reader.scrollTo(chats.last?.id)
+                        })
                         .padding(.all, .s2)
                     }
                 }
